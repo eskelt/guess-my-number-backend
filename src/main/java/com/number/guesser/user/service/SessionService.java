@@ -2,6 +2,7 @@ package com.number.guesser.user.service;
 
 import com.number.guesser.user.constants.SessionConstants;
 import com.number.guesser.user.web.dto.SessionMessagesDTO;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -49,7 +51,7 @@ public class SessionService {
         return SessionConstants.SESSION_DESTROYED;
     }
 
-    @GetMapping("/getMessages")
+    @GetMapping(value = "/getMessages", consumes="application/json")
     public SessionMessagesDTO getMessages(HttpSession session) {
         SessionMessagesDTO sessionMessages = new SessionMessagesDTO();
         sessionMessages.setSessionMessages((List<String>)session.getAttribute(SessionConstants.SESSION_MESSAGES));
@@ -57,7 +59,6 @@ public class SessionService {
     }
 
     private void regenerateSession(HttpServletRequest request) {
-
         HttpSession oldSession = request.getSession();
 
         Enumeration attrNames = oldSession.getAttributeNames();
