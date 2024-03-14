@@ -117,12 +117,16 @@
                         </goals>
                         <configuration>
                             <inputSpec>${project.basedir}/src/main/resources/api-spec.yaml</inputSpec>
-                            <generateSupportingFiles>true</generateSupportingFiles>
+                            <output>${project.basedir}/</output>
+                            <generateSupportingFiles>false</generateSupportingFiles>
                             <generatorName>spring</generatorName>
                             <strictSpec>true</strictSpec>
                             <generateApiTests>false</generateApiTests>
                             <generateModelTests>false</generateModelTests>
+                            <library>spring-boot</library>
                             <configOptions>
+                                <apiName>GuessMyNumberApi</apiName>
+                                <artifactId>model</artifactId>
                                 <controllerThrowsExceptions>java.io.IOException,com.example.NotFoundException</controllerThrowsExceptions>
                                 <interfaceOnly>true</interfaceOnly>
                                 <skipDefaultInterface>true</skipDefaultInterface>
@@ -135,8 +139,8 @@
                                 <dateLibrary>java17</dateLibrary>
                                 <bigDecimalAsString>true</bigDecimalAsString>
                                 <useBeanValidation>true</useBeanValidation>
-                                <apiPackage>org.number.guesser.api</apiPackage>
-                                <modelPackage>org.number.guesser.model</modelPackage>
+                                <apiPackage>com.number.guesser.api</apiPackage>
+                                <modelPackage>com.number.guesser.api.model</modelPackage>
                             </configOptions>
                             <typeMappings>
                                 <typeMapping>OffsetDateTime=LocalDateTime</typeMapping>
