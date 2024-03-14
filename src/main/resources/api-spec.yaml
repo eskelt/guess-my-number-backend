@@ -48,12 +48,6 @@ paths:
         - user
       summary: Destroy user session
       operationId: destroySession
-      requestBody:
-        required: true
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              type: object
       responses:
         '200':
           description: Successful operation
@@ -61,12 +55,6 @@ paths:
             text/plain:
               schema:
                 type: string
-    parameters:
-      - in: header
-        name: HttpServletRequest
-        schema:
-          type: string
-        required: true
   /api/user/getSessionData:
     get:
       tags:

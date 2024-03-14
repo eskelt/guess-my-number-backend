@@ -1,46 +1,44 @@
 package com.number.guesser.user.web;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import com.number.guesser.api.UserApi;
 import com.number.guesser.api.model.SessionDataDTO;
-import com.number.guesser.user.service.impl.SessionServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.number.guesser.user.service.SessionService;
+import com.number.guesser.user.service.model.SessionData;
+import com.number.guesser.user.web.mapper.UserSessionMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/user")
+@RequiredArgsConstructor
 public class UserController implements UserApi {
 
-    @Autowired
-    private HttpSession session;
+    private final SessionService sessionService;
 
-    @Autowired
-    private HttpServletRequest httpRequest;
+    private final HttpServletRequest httpServletRequest;
 
-    @Autowired
-    private SessionServiceImpl sessionService;
-
+    private final UserSessionMapper userSessionMapper;
 
     public ResponseEntity<SessionDataDTO> getSession() {
-        sessionService.getSession(httpRequest);
-        return null;
+        SessionData data = sessionService.getSession(httpServletRequest);
+        SessionDataDTO dataDto = userSessionMapper.sessionDataToSessionDataDTO(data);
+        return ResponseEntity.ok(dataDto);
     }
 
     @Override
-    public ResponseEntity<String> destroySession(String httpServletRequest) {
-        return ResponseEntity.ok(sessionService.destroySession(httpRequest));
+    public ResponseEntity<String> destroySession() {
+        return ResponseEntity.ok(sessionService.destroySession(httpServletRequest.getSession()));
     }
 
     @Override
     public ResponseEntity<SessionDataDTO> getSessionData() {
-        return null;
+        return ResponseEntity.ok(userSessionMapper.sessionDataToSessionDataDTO(sessionService.getSessionData(httpServletRequest.getSession())));
     }
 
     @Override
     public ResponseEntity<SessionDataDTO> setNickname(String nickname) {
-        return null;
+        return ResponseEntity.ok(userSessionMapper.sessionDataToSessionDataDTO(sessionService.setNickname(nickname, httpServletRequest.getSession())));
     }
 }

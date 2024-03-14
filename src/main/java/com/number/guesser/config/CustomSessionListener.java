@@ -1,4 +1,4 @@
-package com.number.guesser.configuration;
+package com.number.guesser.config;
 
 import javax.servlet.annotation.WebListener;
 import javax.servlet.http.HttpSessionEvent;

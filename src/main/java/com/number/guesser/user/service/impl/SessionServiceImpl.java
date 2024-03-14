@@ -1,46 +1,43 @@
 package com.number.guesser.user.service.impl;
 
+import com.number.guesser.user.constants.SessionConstants;
 import com.number.guesser.user.service.SessionService;
+import com.number.guesser.user.service.model.SessionData;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Service
+@RequiredArgsConstructor
 public class SessionServiceImpl implements SessionService {
 
-    public String getSession(HttpServletRequest request) {
-        //HttpSession session = request.getSession();
-        //regenerateSession(request);
-        //return session.getId();
-        return null;
-    }
-
-    public String setNickname(String msg, HttpServletRequest request) {
-        /*@SuppressWarnings("unchecked")
-        List<String> messages = (List<String>) request.getSession().getAttribute(SessionConstants.SESSION_MESSAGES);
-        if (messages == null) {
-            messages = new ArrayList<>();
-            request.getSession().setAttribute(SessionConstants.SESSION_MESSAGES, messages);
+    public SessionData getSession(HttpServletRequest httpRequest) {
+        HttpSession session = httpRequest.getSession();
+        SessionData sessionData = (SessionData)session.getAttribute(SessionConstants.SESSION_DATA);
+        if(sessionData == null){
+            sessionData = new SessionData();
+            session.setAttribute(SessionConstants.SESSION_DATA, sessionData);
         }
-        messages.add(msg);
-        request.getSession().setAttribute(SessionConstants.SESSION_MESSAGES, messages);
-        return SessionConstants.MSG_ADDED;*/
-        return null;
+        return sessionData;
     }
 
-    public String destroySession(HttpServletRequest request) {
-        /*request.getSession().invalidate();
-        return SessionConstants.SESSION_DESTROYED;*/
-        return null;
+    public SessionData setNickname(String nickname, HttpSession httpSession) {
+        SessionData sessionData = (SessionData)httpSession.getAttribute(SessionConstants.SESSION_DATA);
+        sessionData.setNickname(nickname);
+        return sessionData;
     }
 
-    public String getMessages(HttpSession session) {
-        /*SessionMessagesDTO sessionMessages = new SessionMessagesDTO();
-        sessionMessages.setSessionMessages((List<String>)session.getAttribute(SessionConstants.SESSION_MESSAGES));
-        return sessionMessages;*/
-        return null;
+    @Override
+    public String destroySession(HttpSession httpSession) {
+        httpSession.invalidate();
+        return SessionConstants.SESSION_DESTROYED;
+    }
+
+    @Override
+    public SessionData getSessionData(HttpSession httpSession) {
+        return (SessionData)httpSession.getAttribute(SessionConstants.SESSION_DATA);
     }
 
     private void regenerateSession(HttpServletRequest request) {

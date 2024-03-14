@@ -1,4 +1,4 @@
-package com.number.guesser.configuration;
+package com.number.guesser.config;
 
 import org.springframework.session.web.context.AbstractHttpSessionApplicationInitializer;
 

@@ -1,17 +1,19 @@
 package com.number.guesser.user.service;
 
 
+import com.number.guesser.user.service.model.SessionData;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 public interface SessionService {
 
-    public String getSession(HttpServletRequest request);
+    public SessionData getSession(HttpServletRequest httpRequest);
 
-    public String setNickname(String nickname, HttpServletRequest request);
+    public SessionData setNickname(String nickname, HttpSession httpSession);
 
-    public String destroySession(HttpServletRequest request);
+    public String destroySession(HttpSession httpSession);
 
-    public String getMessages(HttpSession session);
+    public SessionData getSessionData(HttpSession httpSession);
 
 }
