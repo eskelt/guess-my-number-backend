@@ -14,11 +14,17 @@ import javax.servlet.http.HttpSession;
 public class SessionServiceImpl implements SessionService {
 
     public SessionData getSession(HttpServletRequest httpRequest) {
-        HttpSession session = httpRequest.getSession();
-        SessionData sessionData = (SessionData)session.getAttribute(SessionConstants.SESSION_DATA);
+        HttpSession httpSession = httpRequest.getSession();
+        System.out.println("MAX: " + httpSession.getMaxInactiveInterval());
+        System.out.println("SESSIONID: " + httpSession.getId());
+        System.out.println("SESSIONID: " + httpRequest.getCookies().length);
+        System.out.println("SESSIONID: " + httpRequest.getCookies()[0].getName());
+        System.out.println("SESSIONID: " + httpRequest.getCookies()[0].getValue());
+        System.out.println("--------------------------------------------------------");
+        SessionData sessionData = (SessionData)httpSession.getAttribute(SessionConstants.SESSION_DATA);
         if(sessionData == null){
             sessionData = new SessionData();
-            session.setAttribute(SessionConstants.SESSION_DATA, sessionData);
+            httpSession.setAttribute(SessionConstants.SESSION_DATA, sessionData);
         }
         return sessionData;
     }
@@ -26,6 +32,7 @@ public class SessionServiceImpl implements SessionService {
     public SessionData setNickname(String nickname, HttpSession httpSession) {
         SessionData sessionData = (SessionData)httpSession.getAttribute(SessionConstants.SESSION_DATA);
         sessionData.setNickname(nickname);
+        httpSession.setAttribute(SessionConstants.SESSION_DATA, sessionData);
         return sessionData;
     }
 
